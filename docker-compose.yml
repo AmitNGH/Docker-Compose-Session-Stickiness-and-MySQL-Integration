@@ -3,7 +3,6 @@ services:
   webapp:
     image: python-webapp
     build: ./webapp
-    # restart: on-failure
     ports:
       - "8080"
     deploy:
