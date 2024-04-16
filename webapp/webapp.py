@@ -18,8 +18,6 @@ db_connection = mysql.connector.connect(
 )
 print("Connected to DB")
 
-cursor = db_connection.cursor(buffered=True)
-
 @webapp.route("/")
 def add_to_counter():
   # get information for access_log query
@@ -28,6 +26,7 @@ def add_to_counter():
   containerIP = gethostbyname(gethostname())
   
   # add +1 to global count
+  cursor = db_connection.cursor()
   cursor.execute("UPDATE global_count SET count = count + 1 WHERE ID = 'count'")
   
   # Add access_log entry 
@@ -36,13 +35,19 @@ def add_to_counter():
   
   cursor.execute(query, values)
   db_connection.commit()
+  cursor.close()
     
+  # create response containing the internal container IP
   response = webapp.make_response("Internal IP: " + containerIP)
+  
+  # creates cookie in the response with the container IP, and age of 5 minutes
   response.set_cookie("internal_ip", containerIP, max_age=5*60)
   return response
 
 @webapp.route("/showcount")
 def show_counter():
+  cursor = db_connection.cursor()
   cursor.execute("SELECT count FROM db.global_count")
   count = cursor.fetchone()
+  cursor.close()
   return webapp.make_response(f"Global counter: {count[0]}")
