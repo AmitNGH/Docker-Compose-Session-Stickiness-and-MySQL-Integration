@@ -1,9 +1,9 @@
-# Basic Docker Compose and Session stickiness project
+# Session-Sticky WebApp with Docker Compose, NGINX, and MySQL
 
-This project creates a basic python webapp, which raises counter and saves records of it to MySQL
+This project demonstrates a scalable Python web application that uses Docker Compose to manage multiple services, including NGINX for load balancing and MySQL for data storage. The web application maintains session stickiness across multiple replicas to ensure user requests are consistently directed to the same instance.
 
-- The environment is created with docker-compose
-- The webapp is created with 3 replicas
-- SQL Server to save count and records
-- NGINX for loadbalancing and session stickiness
-
+Features
+  - Python Web Application: A basic web app that increments a counter and saves records to a MySQL database.
+  - Docker Compose: Orchestrates the entire application environment.
+  - Session Stickiness: NGINX is configured to maintain session stickiness, routing requests from the same user to the same backend instance.
+  - MySQL Database: Stores counters and records reliably.
